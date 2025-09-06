@@ -54,22 +54,23 @@ def set_tracker(request, tracker_id):
         })
 
 
-# View per ottenere i dettagli di un singolo tracker dato il suo ID
-def get_tracker(request,tracker_id):
+# View per ottenere i parametri di un singolo tracker dato il suo ID
+def get_tracker(request,trackerid):
     if request.method != "GET":
         return JsonResponse({"errore"}, status=405)
     
-    tracker= Tracker.objects.get(Tracker_id=tracker_id)
-    return JsonResponse({
-        'Tracker_id': tracker.Tracker_id,
-        'imei': tracker.imei,
-        'plate_number': tracker.plate_number,
-        'status': tracker.status,
-        'last_seen': tracker.last_seen,
-        'vin': tracker.vin,
-        'station_id': tracker.station_id,
-        'tracker_id': tracker.tracker_id,
-    })
+    if not Tracker.objects.get(Tracker_id=trackerid):
+        return JsonResponse({"errore": "Tracker non trovato"}, status=404)
+    
+    else:
+        if Tracker_DataMap.objects.filter(tracker_id=trackerid).exists():
+            return JsonResponse({
+                'data': list(Tracker_DataMap.objects.filter(tracker_id=trackerid).values())
+
+            })
+
+
+
 
 
 

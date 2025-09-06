@@ -88,11 +88,13 @@ class TrackerTypes(models.Model):
 class Tracker_DataMap(models.Model):
     id= models.BigAutoField(max_length=10,primary_key=True)  # PK
     avl= models.IntegerField()
-    trackerTypes_id= models.ForeignKey(TrackerTypes, on_delete=models.CASCADE) # FK
+    formula= models.CharField()
     unita= models.FloatField()
     fattore_moltiplicativo= models.FloatField(max_length=10)
+    tracker_id=models.ForeignKey(Tracker, on_delete=models.CASCADE) # FK
+    trackerTypes_id= models.ForeignKey(TrackerTypes, on_delete=models.CASCADE) # FK
 
     def __str__(self):
-        return f"ID: {self.id} - AVL: {self.avl} - TrackerType ID: {self.trackerTypes_id}"
+        return f"AVL: {self.avl} - formula: {self.formula} - unità: {self.unita} - fattore moltiplicativo: {self.fattore_moltiplicativo}"
 
 
