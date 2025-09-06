@@ -69,6 +69,32 @@ def get_tracker(request,trackerid):
 
             })
 
+#View per per eliminare uno o piü parametri di un tracker dato l'id di un tracker
+def delete_tracker(request, trackerid):
+    if request.method != "DELETE":
+        return JsonResponse({"errore"}, status=405)
+    
+    if not Tracker_DataMap.objects.filter(id=trackerid).exists():
+        return JsonResponse({"errore": "Tracker non trovato"}, status=404)
+    
+    else:
+        data= json.loads(request.body)
+        # elimina i parametri del tracker specificato nell'array data
+        if 'id' in data:
+            Tracker_DataMap.objects.filter(id=trackerid).delete()
+        if 'avl' in data:
+            Tracker_DataMap.objects.filter(avl=data['avl']).delete()
+        if 'formula' in data:
+            Tracker_DataMap.objects.filter(formula=data['formula']).delete()
+        if 'unita' in data:
+            Tracker_DataMap.objects.filter(unita=data['unita']).delete()
+        if 'fattore_moltiplicativo' in data:
+            Tracker_DataMap.objects.filter(fattore_moltiplicativo=data['fattore_moltiplicativo']).delete()
+        
+        return JsonResponse({
+            "message": f"Parametri del tracker: {trackerid} eliminato con successo"
+        })
+
 
 
 
