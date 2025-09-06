@@ -42,29 +42,20 @@ class TrackerData(models.Model):
         Tracker,
         on_delete=models.CASCADE,
         related_name="data",
-        db_column="Tracker_id",  # rispetta il nome colonna originale
+        db_column="Tracker_id", 
     )
 
     ts = models.DateTimeField(help_text="Timestamp del dato (origine dispositivo)")
     priority = models.PositiveSmallIntegerField(blank=True, null=True)
-
-    # Coordinate (precisione 6 decimali ~ 0.11m)
     longitude = models.DecimalField(max_digits=10, decimal_places=6, blank=True, null=True)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
-
     altitude = models.IntegerField(blank=True, null=True, help_text="Altitudine in metri")
     angle = models.PositiveSmallIntegerField(blank=True, null=True, help_text="Angolo/direzione 0-359")
-
-    # La colonna nel DB è 'datellites' (preservata con db_column), in Python esponiamo 'satellites'
     satellites = models.PositiveSmallIntegerField(blank=True, null=True, db_column="datellites")
-
     speed = models.FloatField(blank=True, null=True, help_text="Velocità (km/h)")
     event_id = models.IntegerField(blank=True, null=True)
     properties_count = models.PositiveIntegerField(blank=True, null=True)
-
-    # Elementi I/O: struttura variabile → JSON
     io_elements = models.JSONField(blank=True, null=True)
-
     created_at = models.DateTimeField(auto_now_add=True)
     km = models.DecimalField(max_digits=12, decimal_places=3, blank=True, null=True, help_text="Chilometri totali")
 
@@ -83,7 +74,7 @@ class TrackerData(models.Model):
 
 
 
-
+# modello del tracker
 class TrackerTypes(models.Model):
     id= models.BigIntegerField(max_length=10, primary_key=True)  # PK
     model= models.TextField(null=True, blank=True) # modello del veicolo
