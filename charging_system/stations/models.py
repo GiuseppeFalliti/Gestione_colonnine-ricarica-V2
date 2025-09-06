@@ -12,8 +12,6 @@ class Stazione_ricarica(models.Model):
         ('faulted', 'Guasta'),
         ('unavailable', 'Non disponibile'),
     ]
-     
-    station_id = models.CharField(max_length=50, unique=True) # PK
     name= models.CharField(max_length=100)
     location = models.CharField(max_length=200)
     status = models.CharField(max_length=20, choices=STATUS, default='available') 
